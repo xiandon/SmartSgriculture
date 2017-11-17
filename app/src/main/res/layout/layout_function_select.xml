@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/len_5"
+        android:background="@drawable/select_frame"
+        android:orientation="horizontal"
+        android:padding="@dimen/len_5">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/len_20"
+            android:layout_marginRight="@dimen/len_20"
+            android:lines="1"
+            android:text="监控系统"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_20" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/len_20"
+            android:layout_marginRight="@dimen/len_20"
+            android:lines="1"
+            android:text="进入"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_20" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/len_5"
+        android:background="@drawable/select_frame"
+        android:orientation="horizontal"
+        android:padding="@dimen/len_5">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/len_20"
+            android:layout_marginRight="@dimen/len_20"
+            android:lines="1"
+            android:text="农业系统"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_20" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/len_20"
+            android:layout_marginRight="@dimen/len_20"
+            android:lines="1"
+            android:text="进入"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_20" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/len_5"
+        android:background="@drawable/select_frame"
+        android:orientation="horizontal"
+        android:padding="@dimen/len_5">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/len_20"
+            android:layout_marginRight="@dimen/len_20"
+            android:lines="1"
+            android:text="控制系统"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_20" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/len_20"
+            android:layout_marginRight="@dimen/len_20"
+            android:lines="1"
+            android:text="进入"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_20" />
+
+    </LinearLayout>
+
+</LinearLayout>

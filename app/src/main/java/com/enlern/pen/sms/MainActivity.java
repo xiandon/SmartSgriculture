@@ -9,6 +9,7 @@ import android.os.Message;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -90,6 +91,11 @@ public class MainActivity extends BaseActivity {
     private String TAG = "MainActivity";
     private MainRecAdapter adapter;
 
+    private boolean bSos83;
+    private boolean bSos89;
+    private boolean bSos86;
+    private boolean bSos01;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,6 +112,9 @@ public class MainActivity extends BaseActivity {
         WelcomeActivity.sJuin = "2";
         ActivityManager.getInstance().addActivity(this);
         SPUtils.put(context, "JUIN", "2");
+
+        getBoolean = true;
+
 
         tvTitleClean.setVisibility(View.GONE);
         tvTitleSetting.setVisibility(View.GONE);
@@ -180,7 +189,7 @@ public class MainActivity extends BaseActivity {
 
                             try {
                                 NodeInfo nodeInfo = analysis.analysis(m);
-                                if (nodeInfo != null) {
+                                if (nodeInfo != null && MainActivity.getBoolean) {
                                     adapter.addData(0, nodeInfo);
                                     boolean bSave = SPUtils.contains(context, "SAVE" + nodeInfo.getNode_num());
                                     if (!bSave) {
@@ -194,6 +203,8 @@ public class MainActivity extends BaseActivity {
                                     if (nodeInfo.getNode_num().equals("006039")) {
                                         tvMainSosStatus.setText(nodeInfo.getData_analysis());
                                     }
+
+//                                    checkSos(nodeInfo);
                                 }
                             } catch (IOException e) {
                                 e.printStackTrace();
@@ -270,6 +281,71 @@ public class MainActivity extends BaseActivity {
             }
         });
 
+    }
+
+    private void checkSos(NodeInfo nodeInfo) {
+        bSos83 = SPUtils.contains(context, "S83");
+        bSos89 = SPUtils.contains(context, "S89");
+        bSos86 = SPUtils.contains(context, "S86");
+        bSos01 = SPUtils.contains(context, "S01");
+
+        switch (nodeInfo.getNode_num()) {
+            case "006083":
+                if (bSos83) {
+                    double dS = (double) SPUtils.get(context, "S83", 60.0);
+                    String[] a = analysis.extractAmountMsg(nodeInfo.getNode_data());
+                    Log.i(TAG, "checkSos: " + nodeInfo.getNode_data());
+                    double dD = Double.parseDouble(a[1].toString());
+                    if (dS > dD) {
+                        /*土壤温湿度报警*/
+                        Log.i(TAG, "checkSos: 土壤温湿度");
+                    }
+                } else {
+                    SPUtils.put(context, "S83", 50.00);
+                }
+                break;
+            case "006089":
+                if (bSos89) {
+                    double dS = (double) SPUtils.get(context, "S89", 400.0);
+                    String a = nodeInfo.getNode_data();
+                    double dD = Double.parseDouble(a);
+                    if (dS < dD) {
+                        /*CO2报警*/
+                        Log.i(TAG, "checkSos: 二氧化碳浓度");
+                    }
+                } else {
+                    SPUtils.put(context, "S89", 400.0);
+                }
+                break;
+            case "006086":
+                if (bSos86) {
+                    double dS = (double) SPUtils.get(context, "S86", 25.0);
+                    String[] a = analysis.extractAmountMsg(nodeInfo.getNode_data());
+                    double dD = Double.parseDouble(a[1]);
+                    if (dS < dD) {
+                        /*室内温湿度报警*/
+                        Log.i(TAG, "checkSos: 室内温湿度");
+                    }
+                } else {
+                    SPUtils.put(context, "S86", 25.0);
+                }
+                break;
+            case "006001":
+                if (bSos01) {
+                    double dS = (double) SPUtils.get(context, "S01", 5000.0);
+                    String[] a = analysis.extractAmountMsg(nodeInfo.getNode_data());
+                    double dD = Double.parseDouble(a[1]);
+                    if (dS > dD) {
+                        /*光照报警*/
+
+                        Log.i(TAG, "checkSos: 光照");
+
+                    }
+                } else {
+                    SPUtils.put(context, "S01", 5000.0);
+                }
+                break;
+        }
     }
 
     private void handleSerialData(byte[] buffer, int size) {

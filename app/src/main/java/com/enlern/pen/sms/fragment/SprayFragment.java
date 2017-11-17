@@ -236,7 +236,6 @@ public class SprayFragment extends BaseFragment {
         @Override
         public void run() {
             handler.postDelayed(this, 30000);
-            Log.i(TAG, "run: 定时");
             writeNull();
         }
     };

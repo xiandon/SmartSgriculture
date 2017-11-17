@@ -131,8 +131,6 @@ public class IrrigationFragment extends BaseFragment {
                 message.obj = rec;
                 handler.sendMessage(message);
 
-                Log.i(TAG, "nodeRec: 得到数据");
-                Log.i(TAG, "nodeRec: " + MainActivity.getBoolean);
             }
         });
 
@@ -241,7 +239,6 @@ public class IrrigationFragment extends BaseFragment {
         @Override
         public void run() {
             handler.postDelayed(this, 30000);
-            Log.i(TAG, "run: 定时");
             writeNull();
         }
     };

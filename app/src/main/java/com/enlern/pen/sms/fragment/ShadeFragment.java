@@ -167,7 +167,6 @@ public class ShadeFragment extends BaseFragment {
     });
 
     private void write(NodeInfo info) {
-        Log.i(TAG, "write: 绑定值，灌溉");
         if (info.getNode_num().equals("006001")) {
             tvControlName.setTextColor(a);
             tvControlName.setText(info.getNode_name());

@@ -168,7 +168,6 @@ public class VentilationFragment extends BaseFragment {
     });
 
     private void write(NodeInfo info) {
-        Log.i(TAG, "write: 绑定值，灌溉");
         if (info.getNode_num().equals("006089")) {
             tvControlName.setTextColor(a);
             tvControlName.setText(info.getNode_name());
@@ -238,7 +237,6 @@ public class VentilationFragment extends BaseFragment {
         @Override
         public void run() {
             handler.postDelayed(this, 30000);
-            Log.i(TAG, "run: 定时");
             writeNull();
         }
     };

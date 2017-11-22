@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.enlern.pen.sms.MainActivity;
 import com.enlern.pen.sms.R;
 import com.enlern.pen.sms.base.ActivityManager;
+import com.enlern.pen.sms.storage.SPUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -50,6 +51,8 @@ public class WelcomeActivity extends BaseActivity {
         tvPublicTitle.setText("上海因仑智慧农业");
         tvTitleClean.setVisibility(View.GONE);
         tvTitleSetting.setVisibility(View.GONE);
+
+        SPUtils.put(mContext, "AUTO", "Manual");
 
 
     }

@@ -37,7 +37,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
-    compile 'com.github.xiandon:NodeAnalysis:v2.1.2'
+    compile 'com.github.xiandon:NodeAnalysis:v1.0.3'
     compile 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     compile 'com.android.support:recyclerview-v7:26.0.0-alpha1'
@@ -50,4 +50,5 @@ dependencies {
     implementation files('src/main/jniLibs/PlayerSDK.jar')
     implementation files('src/main/jniLibs/HCNetSDK.jar')
     implementation files('src/main/jniLibs/mysql-connector-java-5.0.8-bin.jar')
+    compile 'com.github.zcweng:switch-button:0.0.3@aar'
 }

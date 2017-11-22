@@ -14,6 +14,7 @@ import com.enlern.pen.sms.R;
 import com.xiandon.wsn.node.NodeInfo;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -89,6 +90,22 @@ public class AgricultureAdapter extends RecyclerView.Adapter {
                 bottom = mContext.getResources().getDrawable(R.drawable.if_bucket_water);
                 setData(nodeInfos.get(position), bottom);
                 break;
+            case "006083":
+                bottom = mContext.getResources().getDrawable(R.drawable.if_soil_small);
+                setData(nodeInfos.get(position), bottom);
+                break;
+            case "006089":
+                bottom = mContext.getResources().getDrawable(R.drawable.if_co_small);
+                setData(nodeInfos.get(position), bottom);
+                break;
+            case "006086":
+                bottom = mContext.getResources().getDrawable(R.drawable.if_air_small);
+                setData(nodeInfos.get(position), bottom);
+                break;
+            case "006001":
+                bottom = mContext.getResources().getDrawable(R.drawable.if_sun_small);
+                setData(nodeInfos.get(position), bottom);
+                break;
 
         }
 
@@ -111,18 +128,17 @@ public class AgricultureAdapter extends RecyclerView.Adapter {
         return nodeInfos.size();
     }
 
-    private void addData(int count, NodeInfo nodeInfo) {
-        nodeInfos.add(count, nodeInfo);
-        notifyItemInserted(count);
-        notifyDataSetChanged();
-        if (nodeInfos.size() > 100) {
-            clearData();
-        }
-    }
-
-
     public void update(NodeInfo info) {
+
+        boolean bAgri = checkAgri(info.getNode_num());
+
+
+        if (!bAgri) {
+            return;
+        }
+
         int in = nodeInfos.size();
+
         boolean b = false;
         for (int i = 0; i < in; i++) {
             if (nodeInfos.get(i).getNode_num().equals(info.getNode_num())) {
@@ -137,6 +153,16 @@ public class AgricultureAdapter extends RecyclerView.Adapter {
             notifyItemChanged(in);
         } else {
             addData(info);
+        }
+    }
+
+    private boolean checkAgri(String node_num) {
+        String strings[] = {"006082", "00600c", "006080", "006081", "006087", "006088", "006007", "006083", "006089", "006086", "006001"};
+        List<String> list = Arrays.asList(strings);
+        if (list.contains(node_num)) {
+            return true;
+        } else {
+            return false;
         }
     }
 

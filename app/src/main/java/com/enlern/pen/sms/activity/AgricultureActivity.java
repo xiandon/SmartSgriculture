@@ -48,7 +48,6 @@ public class AgricultureActivity extends BaseActivity {
     private SmsAnalysis analysis;
     private String TAG = "AgricultureActivity";
 
-    private boolean bStart = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -60,7 +59,6 @@ public class AgricultureActivity extends BaseActivity {
     }
 
     private void initView() {
-        bStart = true;
         ActivityManager.getInstance().addActivity(this);
         tvPublicTitle.setText("环境信息");
         adapter = new AgricultureAdapter(mContext);
@@ -68,7 +66,7 @@ public class AgricultureActivity extends BaseActivity {
             tvTitleSetting.setVisibility(View.GONE);
         }
 
-        GridLayoutManager manager = new GridLayoutManager(mContext, 3);
+        GridLayoutManager manager = new GridLayoutManager(mContext, 4);
         manager.setOrientation(GridLayoutManager.VERTICAL);
         recyclerViewNode.setLayoutManager(manager);
         //添加分割线
@@ -85,8 +83,7 @@ public class AgricultureActivity extends BaseActivity {
             public void nodeRec(String rec) {
                 try {
                     NodeInfo info = analysis.analysis(rec);
-                    Log.i(TAG, "nodeRec: %%%%%%%%%%");
-                    if (info != null && MainActivity.getBoolean && bStart) {
+                    if (info != null && MainActivity.getBoolean) {
                         adapter.update(info);
                     }
                 } catch (IOException e) {
@@ -115,7 +112,5 @@ public class AgricultureActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        bStart = false;
-        Log.i(TAG, "onDestroy: ");
     }
 }

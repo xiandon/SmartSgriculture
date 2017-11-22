@@ -3,9 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/len_5"
-    android:padding="@dimen/len_5"
     android:background="@color/colorPrimary"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:padding="@dimen/len_5">
 
     <LinearLayout
         android:layout_width="0dp"
@@ -48,9 +48,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:lines="1"
                 android:text="----"
                 android:textColor="@color/yellow"
-                android:textSize="@dimen/text_size_20" />
+                android:textSize="@dimen/text_size_15" />
         </LinearLayout>
 
         <LinearLayout
@@ -66,7 +67,7 @@
                 android:gravity="center_horizontal"
                 android:text="元件编号"
                 android:textColor="@color/white"
-                android:textSize="@dimen/text_size_18" />
+                android:textSize="@dimen/text_size_15" />
 
             <TextView
                 android:id="@+id/tv_agriculture_num"
@@ -75,7 +76,7 @@
                 android:layout_weight="1"
                 android:text="----"
                 android:textColor="@color/white"
-                android:textSize="@dimen/text_size_18" />
+                android:textSize="@dimen/text_size_15" />
         </LinearLayout>
 
         <LinearLayout
@@ -91,7 +92,7 @@
                 android:gravity="center_horizontal"
                 android:text="芯片类型"
                 android:textColor="@color/white"
-                android:textSize="@dimen/text_size_18" />
+                android:textSize="@dimen/text_size_15" />
 
             <TextView
                 android:id="@+id/tv_agriculture_chip"
@@ -100,7 +101,7 @@
                 android:layout_weight="1"
                 android:text="----"
                 android:textColor="@color/white"
-                android:textSize="@dimen/text_size_18" />
+                android:textSize="@dimen/text_size_15" />
         </LinearLayout>
 
         <LinearLayout
@@ -116,7 +117,7 @@
                 android:gravity="center_horizontal"
                 android:text="系统版号"
                 android:textColor="@color/white"
-                android:textSize="@dimen/text_size_18" />
+                android:textSize="@dimen/text_size_15" />
 
             <TextView
                 android:id="@+id/tv_agriculture_sys_num"
@@ -125,7 +126,7 @@
                 android:layout_weight="1"
                 android:text="----"
                 android:textColor="@color/white"
-                android:textSize="@dimen/text_size_18" />
+                android:textSize="@dimen/text_size_15" />
         </LinearLayout>
 
         <LinearLayout
@@ -141,7 +142,7 @@
                 android:gravity="center_horizontal"
                 android:text="帧序列号"
                 android:textColor="@color/white"
-                android:textSize="@dimen/text_size_18" />
+                android:textSize="@dimen/text_size_15" />
 
             <TextView
                 android:id="@+id/tv_agriculture_frame_num"
@@ -150,7 +151,7 @@
                 android:layout_weight="1"
                 android:text="----"
                 android:textColor="@color/white"
-                android:textSize="@dimen/text_size_18" />
+                android:textSize="@dimen/text_size_15" />
         </LinearLayout>
 
 

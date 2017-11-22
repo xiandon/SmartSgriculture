@@ -6,15 +6,16 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.enlern.pen.sms.MainActivity;
 import com.enlern.pen.sms.R;
+import com.enlern.pen.sms.activity.ControlActivity;
 import com.enlern.pen.sms.serial.BroadcastMain;
 import com.enlern.pen.sms.serial.RecCallBack;
 import com.enlern.pen.sms.storage.SPUtils;
@@ -67,6 +68,16 @@ public class SprayFragment extends BaseFragment {
 
 
     Unbinder unbinder;
+    @BindView(R.id.tv_control_alert)
+    TextView tvControlAlert;
+    @BindView(R.id.tv_control_auto)
+    TextView tvControlAuto;
+    @BindView(R.id.btn_control_open)
+    Button btnControlOpen;
+    @BindView(R.id.btn_control_close)
+    Button btnControlClose;
+    @BindView(R.id.tv_control_sos_tv)
+    TextView tvControlSosTv;
     private String TAG = "SprayFragment";
     private View view;
     private BroadcastMain broad;
@@ -81,6 +92,8 @@ public class SprayFragment extends BaseFragment {
     private boolean bSave = false;
     private int a;
     private int b;
+
+    public static String sosTv = "";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -148,7 +161,7 @@ public class SprayFragment extends BaseFragment {
                     String rec = (String) msg.obj;
                     try {
                         NodeInfo info = analysis.analysis(rec);
-                        if (info != null && MainActivity.getBoolean) {
+                        if (info != null && MainActivity.getBoolean && ControlActivity.bControl) {
                             bSave = true;
                             write(info);
                         }
@@ -175,6 +188,9 @@ public class SprayFragment extends BaseFragment {
             tvControlChip.setText(info.getChip_type());
             tvControlSystemNum.setText(info.getSys_board());
             tvControlFrameNum.setText(info.getFrame_num());
+            String alert1 = (String) SPUtils.get(context, "S86L", "15");
+            String alert2 = (String) SPUtils.get(context, "S86H", "30");
+            tvControlAlert.setText(alert1 + " ~ " + alert2 + " ℃");
         } else if (info.getNode_num().equals("006038")) {
             tvControlNameC.setTextColor(a);
             tvControlNameC.setText(info.getNode_name());
@@ -183,6 +199,16 @@ public class SprayFragment extends BaseFragment {
             tvControlChipC.setText(info.getChip_type());
             tvControlSystemNumC.setText(info.getSys_board());
             tvControlFrameNumC.setText(info.getFrame_num());
+            String auto = (String) SPUtils.get(context, "AUTOS", "Manual");
+            tvControlSosTv.setText(sosTv);
+            if (auto.equals("Auto")) {
+                btnControlOpen.setVisibility(View.GONE);
+                btnControlClose.setVisibility(View.GONE);
+            } else {
+                btnControlOpen.setVisibility(View.VISIBLE);
+                btnControlClose.setVisibility(View.VISIBLE);
+            }
+            tvControlAuto.setText(auto);
         }
     }
 
@@ -205,7 +231,7 @@ public class SprayFragment extends BaseFragment {
 
     }
 
-    @OnClick({R.id.btn_control_open, R.id.btn_control_close})
+    @OnClick({R.id.btn_control_open, R.id.btn_control_close, R.id.tv_control_alert})
     public void onViewClicked(View view) {
         boolean bSave = SPUtils.contains(context, "SAVE" + "006038");
         if (!bSave) {
@@ -219,6 +245,9 @@ public class SprayFragment extends BaseFragment {
                 break;
             case R.id.btn_control_close:
                 open(wsn, "0001");
+                break;
+
+            case R.id.tv_control_alert:
                 break;
         }
     }

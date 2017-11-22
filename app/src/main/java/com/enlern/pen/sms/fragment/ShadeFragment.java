@@ -10,11 +10,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.enlern.pen.sms.MainActivity;
 import com.enlern.pen.sms.R;
+import com.enlern.pen.sms.activity.ControlActivity;
 import com.enlern.pen.sms.serial.BroadcastMain;
 import com.enlern.pen.sms.serial.RecCallBack;
 import com.enlern.pen.sms.storage.SPUtils;
@@ -34,7 +36,7 @@ import butterknife.Unbinder;
 
 
 /**
- * 遮阳
+ * 光照，遮阳
  * Created by pen on 2017/10/18.
  */
 
@@ -67,6 +69,16 @@ public class ShadeFragment extends BaseFragment {
 
 
     Unbinder unbinder;
+    @BindView(R.id.tv_control_alert)
+    TextView tvControlAlert;
+    @BindView(R.id.tv_control_auto)
+    TextView tvControlAuto;
+    @BindView(R.id.btn_control_open)
+    Button btnControlOpen;
+    @BindView(R.id.btn_control_close)
+    Button btnControlClose;
+    @BindView(R.id.tv_control_sos_tv)
+    TextView tvControlSosTv;
     private String TAG = "ShadeFragment";
     private View view;
     private BroadcastMain broad;
@@ -78,9 +90,10 @@ public class ShadeFragment extends BaseFragment {
     private SerialPortDownload download;
     private SerialPort mSerialPort;
 
-    private boolean bSave = false;
     private int a;
     private int b;
+
+    public static String sosTv = "";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -148,8 +161,7 @@ public class ShadeFragment extends BaseFragment {
                     String rec = (String) msg.obj;
                     try {
                         NodeInfo info = analysis.analysis(rec);
-                        if (info != null && MainActivity.getBoolean) {
-                            bSave = true;
+                        if (info != null && MainActivity.getBoolean && ControlActivity.bControl) {
                             write(info);
                         }
                     } catch (IOException e) {
@@ -175,7 +187,11 @@ public class ShadeFragment extends BaseFragment {
             tvControlChip.setText(info.getChip_type());
             tvControlSystemNum.setText(info.getSys_board());
             tvControlFrameNum.setText(info.getFrame_num());
-        } else if (info.getNode_num().equals("0040")) {
+            String alert1 = (String) SPUtils.get(context, "S01L", "3000");
+            String alert2 = (String) SPUtils.get(context, "S01H", "90000");
+            tvControlSosTv.setText(sosTv);
+            tvControlAlert.setText(alert1 + " ~ " + alert2 + " LUX");
+        } else if (info.getNode_num().equals("004000")) {
             tvControlNameC.setTextColor(a);
             tvControlNameC.setText(info.getNode_name());
             tvControlDataC.setText(info.getData_analysis());
@@ -183,6 +199,15 @@ public class ShadeFragment extends BaseFragment {
             tvControlChipC.setText(info.getChip_type());
             tvControlSystemNumC.setText(info.getSys_board());
             tvControlFrameNumC.setText(info.getFrame_num());
+            String auto = (String) SPUtils.get(context, "AUTOS", "Manual");
+            if (auto.equals("Auto")) {
+                btnControlOpen.setVisibility(View.GONE);
+                btnControlClose.setVisibility(View.GONE);
+            } else {
+                btnControlOpen.setVisibility(View.VISIBLE);
+                btnControlClose.setVisibility(View.VISIBLE);
+            }
+            tvControlAuto.setText(auto);
         }
     }
 
@@ -205,9 +230,9 @@ public class ShadeFragment extends BaseFragment {
 
     }
 
-    @OnClick({R.id.btn_control_open, R.id.btn_control_close})
+    @OnClick({R.id.btn_control_open, R.id.btn_control_close, R.id.tv_control_alert})
     public void onViewClicked(View view) {
-        boolean bSave = SPUtils.contains(context, "SAVE" + "0040");
+        boolean bSave = SPUtils.contains(context, "SAVE" + "004000");
         if (!bSave) {
             Toast.makeText(context, "   请等待设备连接", Toast.LENGTH_SHORT).show();
         }
@@ -215,19 +240,24 @@ public class ShadeFragment extends BaseFragment {
 
         switch (view.getId()) {
             case R.id.btn_control_open:
-                open(wsn, "0000");
+                openSun(wsn, "0001");
                 break;
             case R.id.btn_control_close:
-                open(wsn, "0001");
+                openSun(wsn, "0002");
+                break;
+            case R.id.tv_control_alert:
+
                 break;
         }
     }
 
-    private void open(String str, String sStatus) {
+    private void openSun(String str, String sStatus) {
         if (str == null || str.length() < 20) {
             return;
         }
-        String open = "36" + str.substring(2, 34) + sStatus + str.substring(38, str.length());
+        String open = "36" + str.substring(2, 28) + sStatus + str.substring(32, str.length());
+
+        Log.i(TAG, "open: " + open);
 
         download.DownData(open);
     }

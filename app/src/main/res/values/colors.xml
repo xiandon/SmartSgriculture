@@ -19,4 +19,5 @@
     <color name="indicator_2">@color/green</color>
     <color name="indicator_3">@color/colorPrimary</color>
     <color name="indicator_4">@color/red</color>
+    <color name="indicator_5">#4EBB7F</color>
 </resources>

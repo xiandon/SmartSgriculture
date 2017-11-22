@@ -43,6 +43,8 @@ public class ControlActivity extends BaseActivity {
     TextView tvTitleSetting;
     private Context mContext;
 
+    public static boolean bControl = false;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +60,37 @@ public class ControlActivity extends BaseActivity {
         if (MainActivity.getBoolean) {
             tvTitleSetting.setVisibility(View.GONE);
         }
+
+        int id = getIntent().getIntExtra("id", 0);
+        if (id == 1) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.view_pager_system, new IrrigationFragment())
+                    .addToBackStack(null)
+                    .commit();
+        } else if (id == 2) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.view_pager_system, new VentilationFragment())
+                    .addToBackStack(null)
+                    .commit();
+        } else if (id == 3) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.view_pager_system, new SprayFragment())
+                    .addToBackStack(null)
+                    .commit();
+        } else if (id == 4) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.view_pager_system, new ShadeFragment())
+                    .addToBackStack(null)
+                    .commit();
+        }
+
+
+        bControl = true;
+
         tvPublicTitle.setText("环境控制系统");
         MainActivity.getBoolean = true;
         PagerManager manager = new PagerManager();
@@ -67,7 +100,9 @@ public class ControlActivity extends BaseActivity {
         manager.addFragment(new SprayFragment());
         manager.addFragment(new ShadeFragment());
         ModelPagerAdapter adapter = new ModelPagerAdapter(getSupportFragmentManager(), manager);
+
         viewPagerSystem.setAdapter(adapter);
+
         viewPagerSystem.fixScrollSpeed();
         indicator.setViewPager(viewPagerSystem);
     }
@@ -80,7 +115,7 @@ public class ControlActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        MainActivity.getBoolean = false;
+        bControl = false;
     }
 
     @OnClick({R.id.tv_title_setting})

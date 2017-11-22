@@ -236,7 +236,7 @@ public class ShadeFragment extends BaseFragment {
         if (!bSave) {
             Toast.makeText(context, "   请等待设备连接", Toast.LENGTH_SHORT).show();
         }
-        String wsn = (String) SPUtils.get(context, "SAVE" + "0040", "ll");
+        String wsn = (String) SPUtils.get(context, "SAVE" + "004000", "ll");
 
         switch (view.getId()) {
             case R.id.btn_control_open:
@@ -266,7 +266,6 @@ public class ShadeFragment extends BaseFragment {
         @Override
         public void run() {
             handler.postDelayed(this, 30000);
-            Log.i(TAG, "run: 定时");
             writeNull();
         }
     };

@@ -411,7 +411,9 @@ public class MainActivity extends BaseActivity {
                             }
                         }
                     } else {
-                        Toast.makeText(context, "控制节点尚未连接", Toast.LENGTH_SHORT).show();
+                        if (bAuto) {
+                            Toast.makeText(context, "灌溉节点尚未连接", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 } else {
                     SPUtils.put(context, "S831", "20.5");
@@ -470,7 +472,9 @@ public class MainActivity extends BaseActivity {
                             VentilationFragment.sosTv = "CO2浓度正常";
                         }
                     } else {
-                        Toast.makeText(context, "控制节点尚未连接", Toast.LENGTH_SHORT).show();
+                        if (bAuto){
+                            Toast.makeText(context, "通风节点尚未连接", Toast.LENGTH_SHORT).show();
+                        }
                     }
 
                 } else {
@@ -529,7 +533,9 @@ public class MainActivity extends BaseActivity {
                             }
                         }
                     } else {
-                        Toast.makeText(context, "控制节点尚未连接", Toast.LENGTH_SHORT).show();
+                        if (bAuto) {
+                            Toast.makeText(context, "喷雾节点尚未连接", Toast.LENGTH_SHORT).show();
+                        }
                     }
 
 
@@ -589,7 +595,9 @@ public class MainActivity extends BaseActivity {
                             ShadeFragment.sosTv = "光照正常";
                         }
                     } else {
-                        Toast.makeText(context, "控制节点尚未连接", Toast.LENGTH_SHORT).show();
+                        if (bAuto) {
+                            Toast.makeText(context, "遮阳节点尚未连接", Toast.LENGTH_SHORT).show();
+                        }
                     }
 
                 } else {

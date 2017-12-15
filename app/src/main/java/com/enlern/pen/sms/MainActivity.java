@@ -41,7 +41,9 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 import java.security.InvalidParameterException;
+import java.sql.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Hashtable;
 
 import butterknife.BindView;
@@ -226,6 +228,8 @@ public class MainActivity extends BaseActivity {
                                 NodeInfo nodeInfo = analysis.analysis(m);
                                 if (nodeInfo != null && MainActivity.getBoolean) {
                                     adapter.addData(0, nodeInfo);
+
+
                                     boolean bSave = SPUtils.contains(context, "SAVE" + nodeInfo.getNode_num());
                                     if (!bSave) {
                                         SPUtils.put(context, "SAVE" + nodeInfo.getNode_num(), nodeInfo.getWsn());
@@ -240,8 +244,6 @@ public class MainActivity extends BaseActivity {
                                     }
 
                                     checkSos(nodeInfo);// 处理警戒值
-
-
                                     writeUtils(m, nodeInfo.getNode_num());// 存储协议
                                 }
 
@@ -472,7 +474,7 @@ public class MainActivity extends BaseActivity {
                             VentilationFragment.sosTv = "CO2浓度正常";
                         }
                     } else {
-                        if (bAuto){
+                        if (bAuto) {
                             Toast.makeText(context, "通风节点尚未连接", Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -606,6 +608,13 @@ public class MainActivity extends BaseActivity {
                 }
                 break;
         }
+    }
+
+
+    private void search() {
+        String[] a = {"a", "b", "c", "d", "e"};
+        int i = Arrays.binarySearch(a, "a");
+        System.out.println(i);
     }
 
 

@@ -20,7 +20,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.enlern.pen.sms.activity.BaseActivity;
-import com.enlern.pen.sms.activity.ControlActivity;
 import com.enlern.pen.sms.activity.SettingActivity;
 import com.enlern.pen.sms.activity.WelcomeActivity;
 import com.enlern.pen.sms.adapter.MainRecAdapter;
@@ -33,15 +32,14 @@ import com.enlern.pen.sms.serial.BroadcastMain;
 import com.enlern.pen.sms.storage.SPUtils;
 import com.suke.widget.SwitchButton;
 import com.xiandon.wsn.node.NodeInfo;
-import com.xiandon.wsn.node.SmsAnalysis;
+import com.xiandon.wsn.node.SmsAnalysisV2;
 import com.xiandon.wsn.serial.SerialPortForWsn;
-import com.xiandon.wsn.serial.SerialProtocol;
+import com.xiandon.wsn.serial.SerialProtocolV2;
 
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 import java.security.InvalidParameterException;
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Hashtable;
@@ -101,7 +99,7 @@ public class MainActivity extends BaseActivity {
     public static SerialPortForWsn mSerialport;
 
     private Context context;
-    private SmsAnalysis analysis;
+    private SmsAnalysisV2 analysis;
     private String TAG = "MainActivity";
     private MainRecAdapter adapter;
 
@@ -135,7 +133,7 @@ public class MainActivity extends BaseActivity {
         tvTitleSetting.setVisibility(View.GONE);
 
         boardCast();
-        analysis = new SmsAnalysis(context);
+        analysis = new SmsAnalysisV2(context);
         tvPublicTitle.setText("智慧农业--设置");
         LinearLayoutManager layoutManager = new LinearLayoutManager(MainActivity.this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -218,15 +216,18 @@ public class MainActivity extends BaseActivity {
                         break;
                     case 2:
                         if (MainActivity.alFrames != null && MainActivity.alFrames.size() > 0) {
-                            String m = SerialProtocol.bytesToHexString(alFrames.get(0));
+                            String m = SerialProtocolV2.bytesToHexString(alFrames.get(0));
                             if (m.length() > 100) {
                                 m = m.substring(m.length() - 100);
                             }
                             Intent intent = new Intent("MAIN_RETURN_DATA_TAG");
                             intent.putExtra("MAIN_RETURN_DATA", m);
+
+
                             try {
                                 NodeInfo nodeInfo = analysis.analysis(m);
                                 if (nodeInfo != null && MainActivity.getBoolean) {
+
                                     adapter.addData(0, nodeInfo);
 
 
@@ -235,11 +236,11 @@ public class MainActivity extends BaseActivity {
                                         SPUtils.put(context, "SAVE" + nodeInfo.getNode_num(), nodeInfo.getWsn());
                                     }
 
-                                    if (nodeInfo.getNode_num().equals("006032")) {
+                                    if (nodeInfo.getNode_num().equals("0032")) {
                                         tvMainLightStatus.setText(nodeInfo.getData_analysis());
                                     }
 
-                                    if (nodeInfo.getNode_num().equals("006039")) {
+                                    if (nodeInfo.getNode_num().equals("0039")) {
                                         tvMainSosStatus.setText(nodeInfo.getData_analysis());
                                     }
 
@@ -360,7 +361,7 @@ public class MainActivity extends BaseActivity {
             tvMainSosLocal.setEnabled(true);
         }
         switch (nodeInfo.getNode_num()) {
-            case "006083":
+            case "0083":
                 bSos83 = SPUtils.contains(context, "S831");
                 iWhere = 1;
                 if (bSos83) {
@@ -371,7 +372,7 @@ public class MainActivity extends BaseActivity {
                     String[] a = analysis.extractAmountMsg(nodeInfo.getData_analysis());
                     String dD = a[1];
 
-                    String control = "WSN006037";
+                    String control = "WSN0037";
                     boolean bControl = SPUtils.contains(context, control);
                     if (bControl) {
                         String wsn = (String) SPUtils.get(context, control, "Hello");
@@ -422,7 +423,7 @@ public class MainActivity extends BaseActivity {
                     SPUtils.put(context, "S832", "60.5");
                 }
                 break;
-            case "006089":
+            case "0089":
                 bSos89 = SPUtils.contains(context, "S891");
                 iWhere = 2;
                 if (bSos89) {
@@ -433,7 +434,7 @@ public class MainActivity extends BaseActivity {
                     // 实际警戒值
                     String a = nodeInfo.getData_analysis();
 
-                    String control = "WSN006031";
+                    String control = "WSN0031";
                     boolean bControl = SPUtils.contains(context, control);
                     if (bControl) {
                         String wsn = (String) SPUtils.get(context, control, "Hello");
@@ -484,7 +485,7 @@ public class MainActivity extends BaseActivity {
                     SPUtils.put(context, "S892", "600");
                 }
                 break;
-            case "006086":
+            case "0086":
                 bSos86 = SPUtils.contains(context, "S861");
                 iWhere = 3;
                 if (bSos86) {
@@ -493,7 +494,7 @@ public class MainActivity extends BaseActivity {
                     String[] a = analysis.extractAmountMsg(nodeInfo.getData_analysis());
                     String dD = a[1];
 
-                    String control = "WSN006038";
+                    String control = "WSN0038";
                     boolean bControl = SPUtils.contains(context, control);
                     if (bControl) {
                         String wsn = (String) SPUtils.get(context, control, "Hello");
@@ -546,7 +547,7 @@ public class MainActivity extends BaseActivity {
                     SPUtils.put(context, "S86H", "30.5");
                 }
                 break;
-            case "006001":
+            case "0001":
                 bSos01 = SPUtils.contains(context, "S01L");
                 iWhere = 4;
                 if (bSos01) {
@@ -639,11 +640,11 @@ public class MainActivity extends BaseActivity {
             baRcvBuf[iIdx + i] = buffer[i];
         }
         iRcvBufLen += size;
-        SerialProtocol.recvDataLen = iRcvBufLen;
+        SerialProtocolV2.recvDataLen = iRcvBufLen;
 
-        MainActivity.alFrames = SerialProtocol.ReceiveToQBA(baRcvBuf, iRcvBufStart);
-        iRcvBufLen = iRcvBufStart + iRcvBufLen - SerialProtocol.iHandValidIdx;
-        iRcvBufStart = SerialProtocol.iHandValidIdx;
+        MainActivity.alFrames = SerialProtocolV2.ReceiveToQBA(baRcvBuf, iRcvBufStart);
+        iRcvBufLen = iRcvBufStart + iRcvBufLen - SerialProtocolV2.iHandValidIdx;
+        iRcvBufStart = SerialProtocolV2.iHandValidIdx;
 
         if (MainActivity.alFrames != null && MainActivity.alFrames.size() > 0) {
             if (broadCastFlag) {
@@ -665,8 +666,8 @@ public class MainActivity extends BaseActivity {
             R.id.tv_main_sos_local,
             R.id.tv_main_setting_alert})
     public void onViewClicked(View view) {
-        String wsn = (String) SPUtils.get(context, "SAVE" + "006032", "ll");
-        String wsnSos = (String) SPUtils.get(context, "SAVE" + "006039", "ll");
+        String wsn = (String) SPUtils.get(context, "SAVE" + "0032", "ll");
+        String wsnSos = (String) SPUtils.get(context, "SAVE" + "0039", "ll");
         switch (view.getId()) {
             case R.id.btn_openSerial:
                 if (bSerialIsOpen) {
@@ -731,11 +732,25 @@ public class MainActivity extends BaseActivity {
     }
 
 
-    private void open(String str, String sStatus) {
+    private void open1(String str, String sStatus) {
         if (str == null || str.length() < 20) {
             return;
         }
         String open = "36" + str.substring(2, 34) + sStatus + str.substring(38, str.length());
+        Log.i(TAG, "open: " + open);
+        byte[] ff = this.string2byteArrays(open);
+        try {
+            mSerialport.sendData(ff, 0, ff.length);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void open(String str, String sStatus) {
+        if (str == null || str.length() < 20) {
+            return;
+        }
+        String open = "36" + str.substring(2, 28) + sStatus + str.substring(32, str.length());
         Log.i(TAG, "open: " + open);
         byte[] ff = this.string2byteArrays(open);
         try {

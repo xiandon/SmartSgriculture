@@ -22,6 +22,7 @@ import com.enlern.pen.sms.serial.RecCallBack;
 import com.enlern.pen.sms.storage.SPUtils;
 import com.xiandon.wsn.node.NodeInfo;
 import com.xiandon.wsn.node.SmsAnalysis;
+import com.xiandon.wsn.node.SmsAnalysisV2;
 import com.xiandon.wsn.serial.SerialPortDownload;
 
 import org.xmlpull.v1.XmlPullParserException;
@@ -85,7 +86,7 @@ public class VentilationFragment extends BaseFragment {
 
     private Context context;
 
-    private SmsAnalysis analysis;
+    private SmsAnalysisV2 analysis;
 
     private SerialPortDownload download;
     private SerialPort mSerialPort;
@@ -117,7 +118,7 @@ public class VentilationFragment extends BaseFragment {
         Drawable topLeft = getResources().getDrawable(R.drawable.if_co2);
         Drawable topRight = getResources().getDrawable(R.drawable.if_wind);
 
-        analysis = new SmsAnalysis(context);
+        analysis = new SmsAnalysisV2(context);
 
         download = new SerialPortDownload();
         String PATH = (String) SPUtils.get(getActivity(), "PATH", "/dev/ttyUSB0");
@@ -180,7 +181,7 @@ public class VentilationFragment extends BaseFragment {
     });
 
     private void write(NodeInfo info) {
-        if (info.getNode_num().equals("006089")) {
+        if (info.getNode_num().equals("0089")) {
             tvControlName.setTextColor(a);
             tvControlName.setText(info.getNode_name());
             tvControlData.setText(info.getData_analysis());
@@ -192,7 +193,7 @@ public class VentilationFragment extends BaseFragment {
             String alert2 = (String) SPUtils.get(context, "S89H", "500");
             tvControlAlert.setText(alert1 + " ~ " + alert2 + " PPM");
             tvControlSosTv.setText(sosTv);
-        } else if (info.getNode_num().equals("006031")) {
+        } else if (info.getNode_num().equals("0031")) {
             tvControlNameC.setTextColor(a);
             tvControlNameC.setText(info.getNode_name());
             tvControlDataC.setText(info.getData_analysis());
@@ -233,11 +234,11 @@ public class VentilationFragment extends BaseFragment {
 
     @OnClick({R.id.btn_control_open, R.id.btn_control_close, R.id.tv_control_alert})
     public void onViewClicked(View view) {
-        boolean bSave = SPUtils.contains(context, "SAVE" + "006031");
+        boolean bSave = SPUtils.contains(context, "SAVE" + "0031");
         if (!bSave) {
             Toast.makeText(context, "   请等待设备连接", Toast.LENGTH_SHORT).show();
         }
-        String wsn = (String) SPUtils.get(context, "SAVE" + "006031", "ll");
+        String wsn = (String) SPUtils.get(context, "SAVE" + "0031", "ll");
 
         switch (view.getId()) {
             case R.id.btn_control_open:
@@ -255,7 +256,7 @@ public class VentilationFragment extends BaseFragment {
         if (str == null || str.length() < 20) {
             return;
         }
-        String open = "36" + str.substring(2, 34) + sStatus + str.substring(38, str.length());
+        String open = "36" + str.substring(2, 28) + sStatus + str.substring(32, str.length());
 
 
         Log.i(TAG, "open: " + open);

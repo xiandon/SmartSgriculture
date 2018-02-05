@@ -22,6 +22,7 @@ import com.enlern.pen.sms.serial.RecCallBack;
 import com.enlern.pen.sms.storage.SPUtils;
 import com.xiandon.wsn.node.NodeInfo;
 import com.xiandon.wsn.node.SmsAnalysis;
+import com.xiandon.wsn.node.SmsAnalysisV2;
 import com.xiandon.wsn.serial.SerialPortDownload;
 
 import org.xmlpull.v1.XmlPullParserException;
@@ -85,7 +86,7 @@ public class ShadeFragment extends BaseFragment {
 
     private Context context;
 
-    private SmsAnalysis analysis;
+    private SmsAnalysisV2 analysis;
 
     private SerialPortDownload download;
     private SerialPort mSerialPort;
@@ -117,7 +118,7 @@ public class ShadeFragment extends BaseFragment {
         Drawable topLeft = getResources().getDrawable(R.drawable.if_sunny);
         Drawable topRight = getResources().getDrawable(R.drawable.if_window);
 
-        analysis = new SmsAnalysis(context);
+        analysis = new SmsAnalysisV2(context);
 
         download = new SerialPortDownload();
         String PATH = (String) SPUtils.get(getActivity(), "PATH", "/dev/ttyUSB0");
@@ -179,7 +180,7 @@ public class ShadeFragment extends BaseFragment {
     });
 
     private void write(NodeInfo info) {
-        if (info.getNode_num().equals("006001")) {
+        if (info.getNode_num().equals("0001")) {
             tvControlName.setTextColor(a);
             tvControlName.setText(info.getNode_name());
             tvControlData.setText(info.getData_analysis());
@@ -191,7 +192,7 @@ public class ShadeFragment extends BaseFragment {
             String alert2 = (String) SPUtils.get(context, "S01H", "90000");
             tvControlSosTv.setText(sosTv);
             tvControlAlert.setText(alert1 + " ~ " + alert2 + " LUX");
-        } else if (info.getNode_num().equals("004000")) {
+        } else if (info.getNode_num().equals("0040")) {
             tvControlNameC.setTextColor(a);
             tvControlNameC.setText(info.getNode_name());
             tvControlDataC.setText(info.getData_analysis());
@@ -255,7 +256,7 @@ public class ShadeFragment extends BaseFragment {
         if (str == null || str.length() < 20) {
             return;
         }
-        String open = "36" + str.substring(2, 28) + sStatus + str.substring(32, str.length());
+        String open = "36" + str.substring(2, 32) + sStatus + str.substring(36, str.length());
 
         Log.i(TAG, "open: " + open);
 

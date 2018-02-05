@@ -22,6 +22,7 @@ import com.enlern.pen.sms.serial.RecCallBack;
 import com.enlern.pen.sms.storage.SPUtils;
 import com.xiandon.wsn.node.NodeInfo;
 import com.xiandon.wsn.node.SmsAnalysis;
+import com.xiandon.wsn.node.SmsAnalysisV2;
 import com.xiandon.wsn.serial.SerialPortDownload;
 
 import org.xmlpull.v1.XmlPullParserException;
@@ -85,7 +86,7 @@ public class IrrigationFragment extends BaseFragment {
 
     private Context context;
 
-    private SmsAnalysis analysis;
+    private SmsAnalysisV2 analysis;
 
     private SerialPortDownload download;
     private SerialPort mSerialPort;
@@ -118,7 +119,7 @@ public class IrrigationFragment extends BaseFragment {
         Drawable topLeft = getResources().getDrawable(R.drawable.if_temperature_soil);
         Drawable topRight = getResources().getDrawable(R.drawable.if_irrigation);
 
-        analysis = new SmsAnalysis(context);
+        analysis = new SmsAnalysisV2(context);
 
         download = new SerialPortDownload();
         String PATH = (String) SPUtils.get(getActivity(), "PATH", "/dev/ttyUSB0");
@@ -182,7 +183,7 @@ public class IrrigationFragment extends BaseFragment {
     });
 
     private void write(NodeInfo info) {
-        if (info.getNode_num().equals("006083")) {
+        if (info.getNode_num().equals("0083")) {
             tvControlName.setTextColor(a);
             tvControlName.setText(info.getNode_name());
             tvControlData.setText(info.getData_analysis());
@@ -194,7 +195,7 @@ public class IrrigationFragment extends BaseFragment {
             String alert2 = (String) SPUtils.get(context, "S83H", "60");
             tvControlAlert.setText(alert1 + " ~ " + alert2 + " RH%");
             tvControlSosTv.setText(sosTv);
-        } else if (info.getNode_num().equals("006037")) {
+        } else if (info.getNode_num().equals("0037")) {
             tvControlNameC.setTextColor(a);
             tvControlNameC.setText(info.getNode_name());
             tvControlDataC.setText(info.getData_analysis());
@@ -235,11 +236,11 @@ public class IrrigationFragment extends BaseFragment {
 
     @OnClick({R.id.btn_control_open, R.id.btn_control_close, R.id.tv_control_alert})
     public void onViewClicked(View view) {
-        boolean bSave = SPUtils.contains(context, "SAVE" + "006037");
+        boolean bSave = SPUtils.contains(context, "SAVE" + "0037");
         if (!bSave) {
             Toast.makeText(context, "   请等待设备连接", Toast.LENGTH_SHORT).show();
         }
-        String wsn = (String) SPUtils.get(context, "SAVE" + "006037", "ll");
+        String wsn = (String) SPUtils.get(context, "SAVE" + "0037", "ll");
 
         switch (view.getId()) {
             case R.id.btn_control_open:
@@ -257,7 +258,7 @@ public class IrrigationFragment extends BaseFragment {
         if (str == null || str.length() < 20) {
             return;
         }
-        String open = "36" + str.substring(2, 34) + sStatus + str.substring(38, str.length());
+        String open = "36" + str.substring(2, 28) + sStatus + str.substring(32, str.length());
 
         Log.i(TAG, "open: " + open);
 

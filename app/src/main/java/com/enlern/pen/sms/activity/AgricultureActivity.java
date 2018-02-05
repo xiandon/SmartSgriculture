@@ -19,6 +19,7 @@ import com.enlern.pen.sms.serial.BroadcastMain;
 import com.enlern.pen.sms.serial.RecCallBack;
 import com.xiandon.wsn.node.NodeInfo;
 import com.xiandon.wsn.node.SmsAnalysis;
+import com.xiandon.wsn.node.SmsAnalysisV2;
 
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -45,7 +46,7 @@ public class AgricultureActivity extends BaseActivity {
     private AgricultureAdapter adapter;
     private BroadcastMain broadcastMain;
 
-    private SmsAnalysis analysis;
+    private SmsAnalysisV2 analysis;
     private String TAG = "AgricultureActivity";
 
 
@@ -75,7 +76,7 @@ public class AgricultureActivity extends BaseActivity {
 
         recyclerViewNode.setAdapter(adapter);
 
-        analysis = new SmsAnalysis(mContext);
+        analysis = new SmsAnalysisV2(mContext);
 
         broadcastMain = new BroadcastMain();
         broadcastMain.setCallBack(new RecCallBack() {
@@ -83,6 +84,7 @@ public class AgricultureActivity extends BaseActivity {
             public void nodeRec(String rec) {
                 try {
                     NodeInfo info = analysis.analysis(rec);
+                    Log.i(TAG, "nodeRec: " + info.getWsn());
                     if (info != null && MainActivity.getBoolean) {
                         adapter.update(info);
                     }

@@ -62,47 +62,47 @@ public class AgricultureAdapter extends RecyclerView.Adapter {
 
         Drawable bottom = null;
         switch (nodeInfos.get(position).getNode_num()) {
-            case "006080":
+            case "0080":
                 bottom = mContext.getResources().getDrawable(R.drawable.if_water_level);
                 setData(nodeInfos.get(position), bottom);
                 break;
-            case "006082":
+            case "0082":
                 bottom = mContext.getResources().getDrawable(R.drawable.if_wind_wheel);
                 setData(nodeInfos.get(position), bottom);
                 break;
-            case "00600c":
+            case "000c":
                 bottom = mContext.getResources().getDrawable(R.drawable.if_smoking);
                 setData(nodeInfos.get(position), bottom);
                 break;
-            case "006087":
+            case "0087":
                 bottom = mContext.getResources().getDrawable(R.drawable.if_water_z);
                 setData(nodeInfos.get(position), bottom);
                 break;
-            case "006007":
+            case "0007":
                 bottom = mContext.getResources().getDrawable(R.drawable.if_rainning);
                 setData(nodeInfos.get(position), bottom);
                 break;
-            case "006081":
+            case "0081":
                 bottom = mContext.getResources().getDrawable(R.drawable.if_ph);
                 setData(nodeInfos.get(position), bottom);
                 break;
-            case "006088":
+            case "0088":
                 bottom = mContext.getResources().getDrawable(R.drawable.if_bucket_water);
                 setData(nodeInfos.get(position), bottom);
                 break;
-            case "006083":
+            case "0083":
                 bottom = mContext.getResources().getDrawable(R.drawable.if_soil_small);
                 setData(nodeInfos.get(position), bottom);
                 break;
-            case "006089":
+            case "0089":
                 bottom = mContext.getResources().getDrawable(R.drawable.if_co_small);
                 setData(nodeInfos.get(position), bottom);
                 break;
-            case "006086":
+            case "0086":
                 bottom = mContext.getResources().getDrawable(R.drawable.if_air_small);
                 setData(nodeInfos.get(position), bottom);
                 break;
-            case "006001":
+            case "0001":
                 bottom = mContext.getResources().getDrawable(R.drawable.if_sun_small);
                 setData(nodeInfos.get(position), bottom);
                 break;
@@ -157,7 +157,7 @@ public class AgricultureAdapter extends RecyclerView.Adapter {
     }
 
     private boolean checkAgri(String node_num) {
-        String strings[] = {"006082", "00600c", "006080", "006081", "006087", "006088", "006007", "006083", "006089", "006086", "006001"};
+        String strings[] = {"0082", "000c", "0080", "0081", "0087", "0088", "0007", "0083", "0089", "0086", "0001"};
         List<String> list = Arrays.asList(strings);
         if (list.contains(node_num)) {
             return true;

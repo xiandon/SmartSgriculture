@@ -192,7 +192,7 @@ public class ShadeFragment extends BaseFragment {
             String alert2 = (String) SPUtils.get(context, "S01H", "90000");
             tvControlSosTv.setText(sosTv);
             tvControlAlert.setText(alert1 + " ~ " + alert2 + " LUX");
-        } else if (info.getNode_num().equals("0040")) {
+        } else if (info.getNode_num().equals("0043")) {
             tvControlNameC.setTextColor(a);
             tvControlNameC.setText(info.getNode_name());
             tvControlDataC.setText(info.getData_analysis());
@@ -233,18 +233,18 @@ public class ShadeFragment extends BaseFragment {
 
     @OnClick({R.id.btn_control_open, R.id.btn_control_close, R.id.tv_control_alert})
     public void onViewClicked(View view) {
-        boolean bSave = SPUtils.contains(context, "SAVE" + "004000");
+        boolean bSave = SPUtils.contains(context, "SAVE" + "0043");
         if (!bSave) {
             Toast.makeText(context, "   请等待设备连接", Toast.LENGTH_SHORT).show();
         }
-        String wsn = (String) SPUtils.get(context, "SAVE" + "004000", "ll");
+        String wsn = (String) SPUtils.get(context, "SAVE" + "0043", "ll");
 
         switch (view.getId()) {
             case R.id.btn_control_open:
-                openSun(wsn, "0001");
+                open(wsn, "0000");
                 break;
             case R.id.btn_control_close:
-                openSun(wsn, "0002");
+                open(wsn, "0001");
                 break;
             case R.id.tv_control_alert:
 
@@ -252,13 +252,11 @@ public class ShadeFragment extends BaseFragment {
         }
     }
 
-    private void openSun(String str, String sStatus) {
+    private void open(String str, String sStatus) {
         if (str == null || str.length() < 20) {
             return;
         }
-        String open = "36" + str.substring(2, 32) + sStatus + str.substring(36, str.length());
-
-        Log.i(TAG, "open: " + open);
+        String open = "36" + str.substring(2, 28) + sStatus + str.substring(32, str.length());
 
         download.DownData(open);
     }

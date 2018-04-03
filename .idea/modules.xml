@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/SmartSgriculture.iml" filepath="$PROJECT_DIR$/SmartSgriculture.iml" />
+      <module fileurl="file://C:\Users\pen\AndroidStudioProject\android\SmartSgriculture\SmartSgriculture.iml" filepath="C:\Users\pen\AndroidStudioProject\android\SmartSgriculture\SmartSgriculture.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://C:\Users\pen\AndroidStudioProject\android\SmartSgriculture\app\app.iml" filepath="C:\Users\pen\AndroidStudioProject\android\SmartSgriculture\app\app.iml" />
     </modules>
   </component>
 </project>
